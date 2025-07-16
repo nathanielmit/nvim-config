@@ -1,4 +1,4 @@
--- set leader key
+et leader key
 vim.g.mapleader = " "
 
 -- Bootstrap lazy.nvim if not installed
