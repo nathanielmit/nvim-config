@@ -4,12 +4,6 @@ vim.opt.termguicolors = true
 vim.opt.grepprg = "rg --vimgrep"
 vim.opt.grepformat = "%f:%l:%c:%m"
 
-vim.keymap.set("n", "<leader>to", ":tabonly<CR>", { desc = "Close other tabs" })
-vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { desc = "Close current tab" })
-vim.keymap.set("n", "<leader>tp", ":tabprevious<CR>", { desc = "Previous tab" })
-vim.keymap.set("n", "<leader>tn", ":tabnext<CR>", { desc = "Next tab" })
-vim.keymap.set("n", "<leader>tl", ":tablast<CR>", { desc = "Last tab" })
-vim.keymap.set("n", "<leader>tf", ":tabfirst<CR>", { desc = "First tab" })
 
 require("lazy").setup({
   -- Git
@@ -37,6 +31,46 @@ require("lazy").setup({
   { "neovim/nvim-lspconfig", config = function() require("config.lsp") end },
   { "williamboman/mason.nvim", build = ":MasonUpdate" },
   { "williamboman/mason-lspconfig.nvim" },
+
+
+  -- Github Copilot
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          keymap = {
+            accept = "<C-l>",
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-]>",
+          },
+        },
+        panel = { enabled = false },
+      })
+    end,
+  },
+
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    branch = "canary",
+    dependencies = {
+      "zbirenbaum/copilot.lua",
+      "nvim-lua/plenary.nvim",
+    },
+    opts = {},
+    keys = {
+      { "<leader>ce", ":CopilotChatExplain<CR>", mode = "v", desc = "Explain selected code" },
+      { "<leader>cq", ":CopilotChat<CR>", desc = "Open Copilot Chat" },
+    },
+  },
+
+
 
   -- Searching
   {
