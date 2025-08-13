@@ -25,7 +25,18 @@ require("lazy").setup({
   },
   { "nvim-treesitter/playground" }, -- optional: inspect parse tree
   { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  -- OneDark Theme
+  {
+    "navarasu/onedark.nvim",
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      require('onedark').setup {
+        style = 'darker'
+      }
+      -- Enable theme
+      require('onedark').load()
+    end
+  },
 
   -- LSP / Dev Tools
   { "neovim/nvim-lspconfig", config = function() require("config.lsp") end },
@@ -58,7 +69,7 @@ require("lazy").setup({
 
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
+    branch = "main",
     dependencies = {
       "zbirenbaum/copilot.lua",
       "nvim-lua/plenary.nvim",
@@ -77,10 +88,17 @@ require("lazy").setup({
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      require("telescope").setup({})
 
-      -- Keymaps
-      local builtin = require("telescope.builtin")
+    require("telescope").setup({
+      extensions = {
+        ["ui-select"] = {
+          require("telescope.themes").get_dropdown({})
+        }
+      }
+    })
+    require("telescope").load_extension("ui-select")
+    -- Keymaps
+    local builtin = require("telescope.builtin")
       vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
       vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live grep (project search)" })
       vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find open buffers" })
@@ -89,6 +107,7 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Recent files" })
     end
   },
+  { "nvim-telescope/telescope-ui-select.nvim" },
   ---@type LazySpec
   {
     "mikavilpas/yazi.nvim",
@@ -131,4 +150,23 @@ require("lazy").setup({
       vim.g.loaded_netrwPlugin = 1
     end,
   },
+
+  -- Tmux 
+  { 'alexghergh/nvim-tmux-navigation', config = function()
+
+      local nvim_tmux_nav = require('nvim-tmux-navigation')
+
+      nvim_tmux_nav.setup {
+          disable_when_zoomed = true -- defaults to false
+      }
+
+      vim.keymap.set('n', "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
+      vim.keymap.set('n', "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
+      vim.keymap.set('n', "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
+      vim.keymap.set('n', "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
+      vim.keymap.set('n', "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
+      vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
+
+  end
+  }
 })

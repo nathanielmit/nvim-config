@@ -2,9 +2,23 @@ vim.g.mapleader = " "
 
 -- Git
 vim.keymap.set("n", "<leader>gs", ":G<CR>", { desc = "Git status" })
-vim.keymap.set("n", "<leader>gd", ":DiffviewOpen<CR>", { desc = "Git diff" })
+vim.keymap.set("n", "<leader>gd", ":DiffviewOpen<CR>", { desc = "Git diff open" })
+vim.keymap.set("n", "<leader>gc", ":DiffviewClose<CR>", { desc = "Git diff close" })
 vim.keymap.set("n", "<leader>gb", ":G blame<CR>", { desc = "Git blame" })
 vim.keymap.set("n", "<leader>gl", ":G log<CR>", { desc = "Git log" })
+vim.keymap.set("n", "<leader>ga", ":Git add %<CR>", { desc = "Git add current file" })
+vim.keymap.set("n", "<leader>gc", ":Git commit<CR>", { desc = "Git commit" })
+vim.keymap.set("n", "<leader>gp", ":Git push<CR>", { desc = "Git push" })
+vim.keymap.set("n", "<leader>gP", ":Git pull<CR>", { desc = "Git pull" })
+vim.keymap.set("n", "]h", function() require("gitsigns").next_hunk() end, { desc = "Next Git hunk" })
+vim.keymap.set("n", "[h", function() require("gitsigns").prev_hunk() end, { desc = "Previous Git hunk" })
+vim.keymap.set("n", "<leader>hs", function() require("gitsigns").stage_hunk() end, { desc = "Stage hunk" })
+vim.keymap.set("n", "<leader>hr", function() require("gitsigns").reset_hunk() end, { desc = "Reset hunk" })
+vim.keymap.set("n", "<leader>hu", function() require("gitsigns").undo_stage_hunk() end, { desc = "Undo stage hunk" })
+vim.keymap.set("n", "<leader>hp", function() require("gitsigns").preview_hunk() end, { desc = "Preview hunk" })
+vim.keymap.set("n", "<leader>gS", ":Gwrite<CR>", { desc = "Stage current buffer" })
+vim.keymap.set("n", "<leader>gR", ":Gread<CR>", { desc = "Discard changes in buffer" })
+
 
 -- File navigation
 vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "File tree" })
@@ -40,4 +54,4 @@ vim.keymap.set("i", "<C-]>", function()
 end, { desc = "Copilot: Dismiss suggestion" })
 
 vim.keymap.set("n", "<leader>cr", ":CopilotChatReset<CR>", { desc = "Copilot Chat: Reset session" })
-
+vim.keymap.set('i', '<S-Tab>', 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false })
