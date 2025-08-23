@@ -74,14 +74,41 @@ require("lazy").setup({
       "zbirenbaum/copilot.lua",
       "nvim-lua/plenary.nvim",
     },
-    opts = {},
+
+    config = function(_, opts)
+      require("CopilotChat").setup(opts)
+      -- Unmap <C-l> in normal and insert mode for the chat buffer
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "copilot-chat",
+        callback = function()
+          pcall(vim.keymap.del, "n", "<C-l>", { buffer = true })
+          pcall(vim.keymap.del, "i", "<C-l>", { buffer = true })
+        end,
+      })
+    end,
+    opts = {
+      mappings = {
+        reset = {
+          normal = '<C-r>',
+          insert = '<C-r>',
+        },
+      },
+    },
     keys = {
       { "<leader>ce", ":CopilotChatExplain<CR>", mode = "v", desc = "Explain selected code" },
       { "<leader>cq", ":CopilotChat<CR>", desc = "Open Copilot Chat" },
     },
+    mappings = {
+      close = {
+        normal = '<leader>cQ',
+        insert = '<C-c>',
+      },
+      reset = {
+        normal = '<C-r>',
+        insert = '<C-r>',
+      },
+    },
   },
-
-
 
   -- Searching
   {
@@ -89,16 +116,30 @@ require("lazy").setup({
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
 
-    require("telescope").setup({
-      extensions = {
-        ["ui-select"] = {
-          require("telescope.themes").get_dropdown({})
+      require("telescope").setup({
+        defaults = {
+          vimgrep_arguments = {
+            'rg',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+            '--no-ignore',
+            '--hidden'
+          },
+        },
+        extensions = {
+          ["ui-select"] = {
+            require("telescope.themes").get_dropdown({})
+          }
         }
-      }
-    })
-    require("telescope").load_extension("ui-select")
-    -- Keymaps
-    local builtin = require("telescope.builtin")
+      })
+
+      require("telescope").load_extension("ui-select")
+      -- Keymaps
+      local builtin = require("telescope.builtin")
       vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
       vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live grep (project search)" })
       vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find open buffers" })
@@ -154,19 +195,19 @@ require("lazy").setup({
   -- Tmux 
   { 'alexghergh/nvim-tmux-navigation', config = function()
 
-      local nvim_tmux_nav = require('nvim-tmux-navigation')
+    local nvim_tmux_nav = require('nvim-tmux-navigation')
 
-      nvim_tmux_nav.setup {
-          disable_when_zoomed = true -- defaults to false
-      }
+    nvim_tmux_nav.setup {
+      disable_when_zoomed = true -- defaults to false
+    }
 
-      vim.keymap.set('n', "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
-      vim.keymap.set('n', "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
-      vim.keymap.set('n', "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
-      vim.keymap.set('n', "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
-      vim.keymap.set('n', "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
-      vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
+    vim.keymap.set('n', "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
+    vim.keymap.set('n', "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
+    vim.keymap.set('n', "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
+    vim.keymap.set('n', "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
+    vim.keymap.set('n', "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
+    vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
 
   end
-  }
+}
 })

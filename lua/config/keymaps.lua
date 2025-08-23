@@ -27,6 +27,7 @@ vim.keymap.set("n", "<leader>fs", ":Telescope live_grep<CR>", { desc = "Live gre
 
 -- Clipboard
 vim.keymap.set("v", "<leader>y", '"+y', { noremap = true, silent = true, desc = "Copy to clipboard" })
+vim.keymap.set('n', '<leader>cp', ':let @+ = expand("%:p")<CR>', { desc = "Copy full file path" })
 
 -- Tabs
 vim.keymap.set("n", "<leader>to", ":tabonly<CR>", { desc = "Close other tabs" })
@@ -55,3 +56,4 @@ end, { desc = "Copilot: Dismiss suggestion" })
 
 vim.keymap.set("n", "<leader>cr", ":CopilotChatReset<CR>", { desc = "Copilot Chat: Reset session" })
 vim.keymap.set('i', '<S-Tab>', 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false })
+
