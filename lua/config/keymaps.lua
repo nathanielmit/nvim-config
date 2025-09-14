@@ -3,7 +3,8 @@ vim.g.mapleader = " "
 -- Git
 vim.keymap.set("n", "<leader>gs", ":G<CR>", { desc = "Git status" })
 vim.keymap.set("n", "<leader>gd", ":DiffviewOpen<CR>", { desc = "Git diff open" })
-vim.keymap.set("n", "<leader>gc", ":DiffviewClose<CR>", { desc = "Git diff close" })
+vim.keymap.set("n", "<leader>gq", ":DiffviewClose<CR>", { desc = "Git diff close" })
+vim.keymap.set("n", "<leader>gD", ":DiffviewOpen origin/HEAD...<CR>", { desc = "Git diff: working tree vs remote tracking branch" })
 vim.keymap.set("n", "<leader>gb", ":G blame<CR>", { desc = "Git blame" })
 vim.keymap.set("n", "<leader>gl", ":G log<CR>", { desc = "Git log" })
 vim.keymap.set("n", "<leader>ga", ":Git add %<CR>", { desc = "Git add current file" })
@@ -55,5 +56,6 @@ vim.keymap.set("i", "<C-]>", function()
 end, { desc = "Copilot: Dismiss suggestion" })
 
 vim.keymap.set("n", "<leader>cr", ":CopilotChatReset<CR>", { desc = "Copilot Chat: Reset session" })
+vim.keymap.set("n", "<leader>cc", ":CopilotChatClose<CR>", { desc = "Copilot Chat: Close Panel" })
 vim.keymap.set('i', '<S-Tab>', 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false })
 
