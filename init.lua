@@ -29,7 +29,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 
 require("onedark").setup({
-  style = "deep", -- Choose from 'darker', 'deep', 'cool', 'warm', 'warmer', 'light'
+  style = "cool", -- Choose from 'darker', 'deep', 'cool', 'warm', 'warmer', 'light'
   transparent = true, -- Enable transparent background
   term_colors = true, -- Enable terminal colors
   ending_tildes = true, -- Show tildes at the end of the buffer
@@ -49,8 +49,7 @@ require("onedark").setup({
     variables = "NONE", -- Style for variables
     sidebars = "dark", -- Style for sidebars and floats
     floats = "dark", -- Style for floating windows
-  },
-  
+  }, 
 })
 vim.cmd.colorscheme "onedark"
 
